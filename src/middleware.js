@@ -1,0 +1,34 @@
+const { isAllowed } = require("./limiter");
+const { fallbackCheck } = require("./fallback");
+
+function rateLimiter(config) {
+  return async (req, res, next) => {
+    const userId = req.params.userId;
+
+    if (!userId) {
+    return res.status(400).send("User ID required");
+    }
+
+    const key = `rate_limit:user:${userId}`;
+
+    try {
+      const allowed = await isAllowed(key, config);
+
+      if (!allowed) {
+        return res.status(429).send("Too Many Requests");
+      }
+    } catch (err) {
+      const allowed = fallbackCheck(key, config);
+
+      if (!allowed) {
+        return res.status(429).send("Too Many Requests");
+      }
+    }
+
+    console.log(req.params);
+
+    next();
+  };
+}
+
+module.exports = rateLimiter;
