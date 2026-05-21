@@ -78,6 +78,12 @@ This ensures:
 
 ---
 
+## Local In-Memory Burst Protection
+
+A local in-memory rate limiter has been introduced as a fast pre-check before the Redis-based distributed limiter. This reduces unnecessary load on Redis by filtering high-frequency burst traffic at the application level.
+
+---
+
 ## API
 ### Endpoint
 GET /user/:userId
@@ -117,6 +123,8 @@ Key Design
 rate_limit:user:<userId>
 
 Ensures complete isolation between users.
+
+
 
 ## Limitations
 
