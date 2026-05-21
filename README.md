@@ -53,6 +53,7 @@ Each user is assigned a bucket defined by:
 
 On each request:
 
+```js
 tokens = min(capacity, tokens + (currentTime - lastRefill) * refillRate)
 
 if tokens >= 1:
@@ -61,7 +62,7 @@ tokens -= 1
 
 else:
 reject request (HTTP 429)
-
+```
 
 ---
 
