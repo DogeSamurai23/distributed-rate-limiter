@@ -7,7 +7,7 @@ app.get(
   "/user/:userId",
   rateLimiter({
     capacity: 10,
-    refillRate: 1 / 10
+    refillRate: 5
   }),
   (req, res) => {
     res.send("OK");
